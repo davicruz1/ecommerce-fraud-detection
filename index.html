@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Pedidos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Análise de Dados de Pedidos</h1>
+      <p>Dashboard Interativo e Resumo Estatístico</p>
+      <div class="header-actions">
+        <a href="https://www.kaggle.com/datasets/emirhanakku/e-commerce-order-risk-classification-dataset?resource=download"
+          target="_blank" class="dataset-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          Ver Dataset no Kaggle
+        </a>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+
+      <!-- Table 1: Sample Data -->
+      <div class="glass-card full-width">
+        <h2 class="card-title">Amostra de Dados</h2>
+        <div class="card-content">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr style="text-align: right;">
+                  <th></th>
+                  <th>order_id</th>
+                  <th>order_date</th>
+                  <th>country</th>
+                  <th>device_type</th>
+                  <th>traffic_source</th>
+                  <th>payment_method</th>
+                  <th>product_category</th>
+                  <th>customer_age_days</th>
+                  <th>previous_orders</th>
+                  <th>avg_order_value_eur</th>
+                  <th>...</th>
+                  <th>shipping_distance_km</th>
+                  <th>delivery_days_estimated</th>
+                  <th>late_delivery_risk</th>
+                  <th>address_mismatch</th>
+                  <th>high_risk_ip</th>
+                  <th>customer_support_contacts</th>
+                  <th>review_score</th>
+                  <th>is_returned</th>
+                  <th>is_fraud</th>
+                  <th>risk_label</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>0</th>
+                  <td>ORD-2024-001936</td>
+                  <td>2024-01-03</td>
+                  <td>Belgium</td>
+                  <td>Mobile</td>
+                  <td>Paid Ads</td>
+                  <td>Credit Card</td>
+                  <td>Sports</td>
+                  <td>381</td>
+                  <td>3</td>
+                  <td>28.66</td>
+                  <td>...</td>
+                  <td>105.7</td>
+                  <td>5</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.4</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>1</th>
+                  <td>ORD-2025-006495</td>
+                  <td>2025-11-26</td>
+                  <td>Netherlands</td>
+                  <td>Desktop</td>
+                  <td>Email</td>
+                  <td>Debit Card</td>
+                  <td>Garden</td>
+                  <td>561</td>
+                  <td>6</td>
+                  <td>41.93</td>
+                  <td>...</td>
+                  <td>528.2</td>
+                  <td>4</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.8</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>2</th>
+                  <td>ORD-2023-001721</td>
+                  <td>2023-11-07</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Organic Search</td>
+                  <td>Debit Card</td>
+                  <td>Garden</td>
+                  <td>324</td>
+                  <td>2</td>
+                  <td>102.67</td>
+                  <td>...</td>
+                  <td>175.1</td>
+                  <td>5</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>3.3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>3</th>
+                  <td>ORD-2024-009121</td>
+                  <td>2024-05-28</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Organic Search</td>
+                  <td>Klarna</td>
+                  <td>Electronics</td>
+                  <td>378</td>
+                  <td>3</td>
+                  <td>72.71</td>
+                  <td>...</td>
+                  <td>271.4</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.2</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>Return Risk</td>
+                </tr>
+                <tr>
+                  <th>4</th>
+                  <td>ORD-2025-000361</td>
+                  <td>2025-01-31</td>
+                  <td>Netherlands</td>
+                  <td>Desktop</td>
+                  <td>Direct</td>
+                  <td>Bank Transfer</td>
+                  <td>Home &amp; Kitchen</td>
+                  <td>447</td>
+                  <td>5</td>
+                  <td>52.26</td>
+                  <td>...</td>
+                  <td>285.3</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>5.0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>5</th>
+                  <td>ORD-2024-005278</td>
+                  <td>2024-07-18</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Debit Card</td>
+                  <td>Pet Supplies</td>
+                  <td>102</td>
+                  <td>1</td>
+                  <td>84.27</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>6</th>
+                  <td>ORD-2025-008547</td>
+                  <td>2025-11-14</td>
+                  <td>Italy</td>
+                  <td>Mobile</td>
+                  <td>Marketplace</td>
+                  <td>Credit Card</td>
+                  <td>Electronics</td>
+                  <td>9</td>
+                  <td>0</td>
+                  <td>70.55</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>7</th>
+                  <td>ORD-2024-002222</td>
+                  <td>2024-11-10</td>
+                  <td>Netherlands</td>
+                  <td>Desktop</td>
+                  <td>Direct</td>
+                  <td>Credit Card</td>
+                  <td>Electronics</td>
+                  <td>46</td>
+                  <td>0</td>
+                  <td>21.65</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>8</th>
+                  <td>ORD-2023-004618</td>
+                  <td>2023-12-14</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Klarna</td>
+                  <td>Garden</td>
+                  <td>663</td>
+                  <td>6</td>
+                  <td>15.68</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>9</th>
+                  <td>ORD-2024-003466</td>
+                  <td>2024-09-21</td>
+                  <td>Germany</td>
+                  <td>Desktop</td>
+                  <td>Social Media</td>
+                  <td>Credit Card</td>
+                  <td>Electronics</td>
+                  <td>33</td>
+                  <td>0</td>
+                  <td>47.71</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>10</th>
+                  <td>ORD-2023-001409</td>
+                  <td>2023-11-05</td>
+                  <td>Turkey</td>
+                  <td>Desktop</td>
+                  <td>Email</td>
+                  <td>Credit Card</td>
+                  <td>Garden</td>
+                  <td>51</td>
+                  <td>0</td>
+                  <td>24.95</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>11</th>
+                  <td>ORD-2024-000469</td>
+                  <td>2024-10-14</td>
+                  <td>France</td>
+                  <td>Mobile</td>
+                  <td>Organic Search</td>
+                  <td>Klarna</td>
+                  <td>Beauty</td>
+                  <td>934</td>
+                  <td>4</td>
+                  <td>64.38</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>12</th>
+                  <td>ORD-2023-001176</td>
+                  <td>2023-03-03</td>
+                  <td>Belgium</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Debit Card</td>
+                  <td>Sports</td>
+                  <td>829</td>
+                  <td>1</td>
+                  <td>13.12</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>13</th>
+                  <td>ORD-2025-005225</td>
+                  <td>2025-04-01</td>
+                  <td>Germany</td>
+                  <td>Mobile</td>
+                  <td>Paid Ads</td>
+                  <td>Klarna</td>
+                  <td>Pet Supplies</td>
+                  <td>330</td>
+                  <td>3</td>
+                  <td>44.51</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>14</th>
+                  <td>ORD-2025-008129</td>
+                  <td>2025-06-30</td>
+                  <td>Belgium</td>
+                  <td>Mobile</td>
+                  <td>Email</td>
+                  <td>Credit Card</td>
+                  <td>Electronics</td>
+                  <td>460</td>
+                  <td>6</td>
+                  <td>53.62</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>15</th>
+                  <td>ORD-2024-000425</td>
+                  <td>2024-03-30</td>
+                  <td>Spain</td>
+                  <td>Tablet</td>
+                  <td>Marketplace</td>
+                  <td>Debit Card</td>
+                  <td>Sports</td>
+                  <td>276</td>
+                  <td>1</td>
+                  <td>34.32</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>16</th>
+                  <td>ORD-2023-007048</td>
+                  <td>2023-05-08</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Organic Search</td>
+                  <td>Debit Card</td>
+                  <td>Electronics</td>
+                  <td>104</td>
+                  <td>2</td>
+                  <td>54.96</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>17</th>
+                  <td>ORD-2025-002484</td>
+                  <td>2025-08-14</td>
+                  <td>Germany</td>
+                  <td>Desktop</td>
+                  <td>Marketplace</td>
+                  <td>Credit Card</td>
+                  <td>Pet Supplies</td>
+                  <td>313</td>
+                  <td>2</td>
+                  <td>28.61</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>18</th>
+                  <td>ORD-2023-001826</td>
+                  <td>2023-03-24</td>
+                  <td>Italy</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Credit Card</td>
+                  <td>Garden</td>
+                  <td>252</td>
+                  <td>0</td>
+                  <td>32.54</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>19</th>
+                  <td>ORD-2025-010558</td>
+                  <td>2025-10-21</td>
+                  <td>Germany</td>
+                  <td>Tablet</td>
+                  <td>Direct</td>
+                  <td>PayPal</td>
+                  <td>Pet Supplies</td>
+                  <td>558</td>
+                  <td>3</td>
+                  <td>44.21</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>20</th>
+                  <td>ORD-2025-001484</td>
+                  <td>2025-04-23</td>
+                  <td>Germany</td>
+                  <td>Mobile</td>
+                  <td>Organic Search</td>
+                  <td>Debit Card</td>
+                  <td>Toys</td>
+                  <td>186</td>
+                  <td>1</td>
+                  <td>33.54</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>21</th>
+                  <td>ORD-2023-009291</td>
+                  <td>2023-07-19</td>
+                  <td>Germany</td>
+                  <td>Mobile</td>
+                  <td>Paid Ads</td>
+                  <td>Credit Card</td>
+                  <td>Sports</td>
+                  <td>305</td>
+                  <td>0</td>
+                  <td>30.93</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>22</th>
+                  <td>ORD-2025-009710</td>
+                  <td>2025-01-29</td>
+                  <td>Belgium</td>
+                  <td>Desktop</td>
+                  <td>Direct</td>
+                  <td>PayPal</td>
+                  <td>Fashion</td>
+                  <td>349</td>
+                  <td>3</td>
+                  <td>63.31</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>23</th>
+                  <td>ORD-2024-001651</td>
+                  <td>2024-12-20</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Paid Ads</td>
+                  <td>Bank Transfer</td>
+                  <td>Electronics</td>
+                  <td>326</td>
+                  <td>2</td>
+                  <td>20.77</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>24</th>
+                  <td>ORD-2024-009787</td>
+                  <td>2024-03-11</td>
+                  <td>Netherlands</td>
+                  <td>Tablet</td>
+                  <td>Social Media</td>
+                  <td>Debit Card</td>
+                  <td>Fashion</td>
+                  <td>112</td>
+                  <td>2</td>
+                  <td>50.13</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>25</th>
+                  <td>ORD-2023-002814</td>
+                  <td>2023-10-01</td>
+                  <td>Netherlands</td>
+                  <td>Mobile</td>
+                  <td>Marketplace</td>
+                  <td>PayPal</td>
+                  <td>Electronics</td>
+                  <td>862</td>
+                  <td>7</td>
+                  <td>50.0</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>26</th>
+                  <td>ORD-2024-003705</td>
+                  <td>2024-06-02</td>
+                  <td>Poland</td>
+                  <td>Desktop</td>
+                  <td>Organic Search</td>
+                  <td>Debit Card</td>
+                  <td>Garden</td>
+                  <td>31</td>
+                  <td>0</td>
+                  <td>21.83</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>27</th>
+                  <td>ORD-2023-006119</td>
+                  <td>2023-06-06</td>
+                  <td>Germany</td>
+                  <td>Mobile</td>
+                  <td>Email</td>
+                  <td>Klarna</td>
+                  <td>Electronics</td>
+                  <td>546</td>
+                  <td>4</td>
+                  <td>64.94</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>28</th>
+                  <td>ORD-2024-005043</td>
+                  <td>2024-07-07</td>
+                  <td>Belgium</td>
+                  <td>Mobile</td>
+                  <td>Direct</td>
+                  <td>PayPal</td>
+                  <td>Pet Supplies</td>
+                  <td>104</td>
+                  <td>0</td>
+                  <td>133.22</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>29</th>
+                  <td>ORD-2024-011209</td>
+                  <td>2024-11-20</td>
+                  <td>Turkey</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Bank Transfer</td>
+                  <td>Home &amp; Kitchen</td>
+                  <td>96</td>
+                  <td>0</td>
+                  <td>77.18</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>30</th>
+                  <td>ORD-2023-007239</td>
+                  <td>2023-12-22</td>
+                  <td>Germany</td>
+                  <td>Mobile</td>
+                  <td>Social Media</td>
+                  <td>Klarna</td>
+                  <td>Electronics</td>
+                  <td>612</td>
+                  <td>4</td>
+                  <td>25.03</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>31</th>
+                  <td>ORD-2024-011506</td>
+                  <td>2024-11-04</td>
+                  <td>France</td>
+                  <td>Desktop</td>
+                  <td>Paid Ads</td>
+                  <td>PayPal</td>
+                  <td>Sports</td>
+                  <td>128</td>
+                  <td>0</td>
+                  <td>39.61</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+                <tr>
+                  <th>32</th>
+                  <td>ORD-2024-011075</td>
+                  <td>2024-05-14</td>
+                  <td>Netherlands</td>
+                  <td>Desktop</td>
+                  <td>Social Media</td>
+                  <td>Credit Card</td>
+                  <td>Fashion</td>
+                  <td>380</td>
+                  <td>1</td>
+                  <td>74.26</td>
+                  <td>...</td>
+                  <td>150.0</td>
+                  <td>3</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>4.6</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>Normal</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 1 -->
+      <div class="glass-card">
+        <h2 class="card-title">Gráfico 1</h2>
+        <div class="card-content">
+          <img src="chart_1.png" alt="Gráfico 1">
+        </div>
+      </div>
+
+      <!-- Chart 2 -->
+      <div class="glass-card">
+        <h2 class="card-title">Gráfico 2</h2>
+        <div class="card-content">
+          <img src="chart_2.png" alt="Gráfico 2">
+        </div>
+      </div>
+
+      <!-- Table 2: Statistical Summary -->
+      <div class="glass-card full-width">
+        <h2 class="card-title">Resumo Estatístico</h2>
+        <div class="card-content">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr style="text-align: right;">
+                  <th></th>
+                  <th>customer_age_days</th>
+                  <th>previous_orders</th>
+                  <th>avg_order_value_eur</th>
+                  <th>order_value_eur</th>
+                  <th>quantity</th>
+                  <th>discount_rate</th>
+                  <th>shipping_distance_km</th>
+                  <th>delivery_days_estimated</th>
+                  <th>late_delivery_risk</th>
+                  <th>address_mismatch</th>
+                  <th>high_risk_ip</th>
+                  <th>customer_support_contacts</th>
+                  <th>review_score</th>
+                  <th>is_returned</th>
+                  <th>is_fraud</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>count</th>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                  <td>12000.000000</td>
+                </tr>
+                <tr>
+                  <th>mean</th>
+                  <td>352.789083</td>
+                  <td>1.943417</td>
+                  <td>48.940278</td>
+                  <td>61.053339</td>
+                  <td>2.171833</td>
+                  <td>0.146857</td>
+                  <td>479.196567</td>
+                  <td>4.058917</td>
+                  <td>0.060000</td>
+                  <td>0.048583</td>
+                  <td>0.044167</td>
+                  <td>0.200667</td>
+                  <td>4.412433</td>
+                  <td>0.092667</td>
+                  <td>0.037250</td>
+                </tr>
+                <tr>
+                  <th>std</th>
+                  <td>237.556088</td>
+                  <td>1.902590</td>
+                  <td>28.716864</td>
+                  <td>55.540429</td>
+                  <td>1.625534</td>
+                  <td>0.113934</td>
+                  <td>330.305205</td>
+                  <td>1.105312</td>
+                  <td>0.237497</td>
+                  <td>0.215004</td>
+                  <td>0.205474</td>
+                  <td>0.478803</td>
+                  <td>0.545286</td>
+                  <td>0.289977</td>
+                  <td>0.189382</td>
+                </tr>
+                <tr>
+                  <th>min</th>
+                  <td>5.000000</td>
+                  <td>0.000000</td>
+                  <td>8.000000</td>
+                  <td>5.000000</td>
+                  <td>1.000000</td>
+                  <td>0.000000</td>
+                  <td>5.000000</td>
+                  <td>1.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>1.300000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                </tr>
+                <tr>
+                  <th>25%</th>
+                  <td>177.000000</td>
+                  <td>1.000000</td>
+                  <td>29.070000</td>
+                  <td>26.617500</td>
+                  <td>1.000000</td>
+                  <td>0.060000</td>
+                  <td>236.100000</td>
+                  <td>3.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>4.100000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                </tr>
+                <tr>
+                  <th>50%</th>
+                  <td>299.000000</td>
+                  <td>1.000000</td>
+                  <td>42.100000</td>
+                  <td>45.335000</td>
+                  <td>2.000000</td>
+                  <td>0.120000</td>
+                  <td>404.450000</td>
+                  <td>4.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>4.500000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                </tr>
+                <tr>
+                  <th>75%</th>
+                  <td>475.000000</td>
+                  <td>3.000000</td>
+                  <td>61.010000</td>
+                  <td>75.952500</td>
+                  <td>3.000000</td>
+                  <td>0.210000</td>
+                  <td>645.225000</td>
+                  <td>5.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                  <td>4.900000</td>
+                  <td>0.000000</td>
+                  <td>0.000000</td>
+                </tr>
+                <tr>
+                  <th>max</th>
+                  <td>1832.000000</td>
+                  <td>13.000000</td>
+                  <td>350.450000</td>
+                  <td>810.750000</td>
+                  <td>8.000000</td>
+                  <td>0.750000</td>
+                  <td>2589.700000</td>
+                  <td>9.000000</td>
+                  <td>1.000000</td>
+                  <td>1.000000</td>
+                  <td>1.000000</td>
+                  <td>5.000000</td>
+                  <td>5.000000</td>
+                  <td>1.000000</td>
+                  <td>1.000000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 3 -->
+      <div class="glass-card">
+        <h2 class="card-title">Gráfico 3</h2>
+        <div class="card-content">
+          <img src="chart_3.png" alt="Gráfico 3">
+        </div>
+      </div>
+
+      <!-- Chart 4 -->
+      <div class="glass-card">
+        <h2 class="card-title">Gráfico 4</h2>
+        <div class="card-content">
+          <img src="chart_4.png" alt="Gráfico 4">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Projeto de Análise de E-commerce. Desenvolvido para Faculdade Impacta de Tecnologia</p>
+      <div class="footer-links">
+        <a href="https://github.com/davicruz1" target="_blank" title="Seu GitHub">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="image-modal" class="image-modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="modal-img" alt="Grafico Ampliado">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
