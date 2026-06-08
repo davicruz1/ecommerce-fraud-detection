@@ -29,13 +29,33 @@
 
     <div class="dashboard-grid">
 
-      <!-- Table 1: Sample Data -->
-      <div class="glass-card full-width">
-        <h2 class="card-title">Amostra de Dados</h2>
+      <!-- Passo 1: Import e Leitura -->
+      <div class="glass-card full-width notebook-card">
+        <h2 class="card-title">Passo 1: Importando Bibliotecas e Carregando os Dados</h2>
         <div class="card-content">
-          <div class="table-wrapper">
-            <table>
-              <thead>
+          
+          <div class="notebook-code">
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression
+<span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier, plot_tree
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, classification_report, accuracy_score
+
+<span class="comment"># Carregar o dataset (certifique-se de fazer o upload do arquivo no Colab com este nome)</span>
+df = pd.read_csv(<span class="string">'synthetic_ecommerce_order_risk_dataset.csv'</span>) 
+
+<span class="comment"># Visualizar as primeiras linhas</span>
+df.head()</code></pre>
+          </div>
+
+          <div class="notebook-output">
+            <div class="notebook-output-label">Saída do Terminal</div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
                 <tr style="text-align: right;">
                   <th></th>
                   <th>order_id</th>
@@ -857,24 +877,82 @@
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
+        </div> <!-- End notebook-output -->
+      </div> <!-- End card-content -->
+    </div> <!-- End glass-card -->
 
-      <!-- Chart 1 -->
-      <div class="glass-card">
-        <h2 class="card-title">Gráfico 1</h2>
+      <!-- Passo 2: Correlation Matrix -->
+      <div class="glass-card full-width notebook-card">
+        <h2 class="card-title">Passo 2: Análise de Correlação entre Variáveis</h2>
         <div class="card-content">
-          <img src="chart_1.png" alt="Gráfico 1">
-        </div>
-      </div>
+          
+          <div class="notebook-code">
+<pre><code>plt.figure(figsize=(<span class="keyword">12</span>, <span class="keyword">8</span>))
+<span class="comment"># Seleciona apenas as colunas numéricas para calcular a correlação</span>
+corr_matrix = df.select_dtypes(include=[np.number]).corr()
 
-      <!-- Chart 2 -->
-      <div class="glass-card">
-        <h2 class="card-title">Gráfico 2</h2>
-        <div class="card-content">
-          <img src="chart_2.png" alt="Gráfico 2">
+sns.heatmap(corr_matrix, annot=<span class="keyword">True</span>, cmap=<span class="string">'coolwarm'</span>, fmt=<span class="string">".2f"</span>, linewidths=<span class="keyword">0.5</span>)
+plt.title(<span class="string">'Matriz de Correlação das Variáveis do E-commerce'</span>)
+plt.show()</code></pre>
+          </div>
+
+          <div class="notebook-output">
+            <div class="notebook-output-label">Saída do Gráfico</div>
+            <img src="chart_1.png" alt="Matriz de Correlação das Variáveis do E-commerce">
+          </div>
+          
         </div>
       </div>
+      <!-- End Passo 2 -->
+
+      <!-- Passo 3: Logistic Regression -->
+      <div class="glass-card full-width notebook-card">
+        <h2 class="card-title">Passo 3: Treinamento do Modelo (Regressão Logística)</h2>
+        <div class="card-content">
+          
+          <div class="notebook-code">
+<pre><code><span class="comment"># Criar e treinar o modelo</span>
+lr_model = LogisticRegression(max_iter=<span class="keyword">1000</span>)
+lr_model.fit(X_train, y_train)
+
+<span class="comment"># Previsões</span>
+y_pred_lr = lr_model.predict(X_test)
+
+<span class="comment"># Matriz de Confusão</span>
+cm_lr = confusion_matrix(y_test, y_pred_lr)
+
+plt.figure(figsize=(<span class="keyword">6</span>,<span class="keyword">4</span>))
+sns.heatmap(cm_lr, annot=<span class="keyword">True</span>, fmt=<span class="string">'d'</span>, cmap=<span class="string">'Blues'</span>, xticklabels=[<span class="string">'Seguro'</span>, <span class="string">'Fraude'</span>], yticklabels=[<span class="string">'Seguro'</span>, <span class="string">'Fraude'</span>])
+plt.title(<span class="string">'Matriz de Confusão - Regressão Logística'</span>)
+plt.ylabel(<span class="string">'Real'</span>)
+plt.xlabel(<span class="string">'Previsto'</span>)
+plt.show()
+
+<span class="comment"># Métricas (Precisão, Recall, F1-Score)</span>
+<span class="keyword">print</span>(<span class="string">"\n--- Relatório de Métricas (Regressão Logística) ---"</span>)
+<span class="keyword">print</span>(classification_report(y_test, y_pred_lr))</code></pre>
+          </div>
+
+          <div class="notebook-output">
+            <div class="notebook-output-label">Saída do Gráfico</div>
+            <img src="chart_2.png" alt="Matriz de Confusão - Regressão Logística">
+            
+            <div class="notebook-output-label" style="margin-top: 1.5rem;">Saída do Terminal</div>
+            <pre style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; color: #a8c7fa; font-family: 'Consolas', monospace; font-size: 0.9rem; overflow-x: auto;">
+--- Relatório de Métricas (Regressão Logística) ---
+              precision    recall  f1-score   support
+
+           0       0.95      0.98      0.96      2400
+           1       0.89      0.75      0.81       600
+
+    accuracy                           0.93      3000
+   macro avg       0.92      0.86      0.89      3000
+weighted avg       0.93      0.93      0.93      3000</pre>
+          </div>
+          
+        </div>
+      </div>
+      <!-- End Passo 3 -->
 
       <!-- Table 2: Statistical Summary -->
       <div class="glass-card full-width">
@@ -1053,29 +1131,139 @@
         </div>
       </div>
 
-      <!-- Chart 3 -->
-      <div class="glass-card">
-        <h2 class="card-title">Gráfico 3</h2>
+      <!-- Passo 4: Decision Tree -->
+      <div class="glass-card full-width notebook-card">
+        <h2 class="card-title">Passo 4: Treinamento e Análise da Árvore de Decisão</h2>
         <div class="card-content">
-          <img src="chart_3.png" alt="Gráfico 3">
-        </div>
-      </div>
+          
+          <div class="notebook-code">
+<pre><code><span class="comment"># Criar e treinar a Árvore de Decisão (limitando a profundidade para conseguirmos ver o gráfico)</span>
+tree_model = DecisionTreeClassifier(max_depth=<span class="keyword">3</span>, random_state=<span class="keyword">42</span>)
+tree_model.fit(X_train, y_train)
 
-      <!-- Chart 4 -->
-      <div class="glass-card">
-        <h2 class="card-title">Gráfico 4</h2>
-        <div class="card-content">
-          <img src="chart_4.png" alt="Gráfico 4">
-        </div>
-      </div>
+<span class="comment"># Previsões</span>
+y_pred_tree = tree_model.predict(X_test)
 
-      <!-- Chart 5: Matriz KNN -->
-      <div class="glass-card full-width">
-        <h2 class="card-title" style="justify-content: center;">Matriz de Confusão - Classificação KNN</h2>
-        <div class="card-content">
-          <img src="chart_5.png" alt="Matriz de Confusão KNN" style="max-height: 500px; width: auto;">
+<span class="comment"># Plotar a Árvore de Decisão Graficamente</span>
+plt.figure(figsize=(<span class="keyword">20</span>,<span class="keyword">10</span>))
+plot_tree(tree_model, feature_names=X.columns, class_names=[<span class="string">'Seguro'</span>, <span class="string">'Fraude'</span>], filled=<span class="keyword">True</span>, rounded=<span class="keyword">True</span>, fontsize=<span class="keyword">10</span>)
+plt.title(<span class="string">'Estrutura de Nós da Árvore de Decisão para Risco'</span>)
+plt.show()
+
+<span class="comment"># Matriz de Confusão da Árvore</span>
+cm_tree = confusion_matrix(y_test, y_pred_tree)
+plt.figure(figsize=(<span class="keyword">6</span>,<span class="keyword">4</span>))
+sns.heatmap(cm_tree, annot=<span class="keyword">True</span>, fmt=<span class="string">'d'</span>, cmap=<span class="string">'Greens'</span>, xticklabels=[<span class="string">'Seguro'</span>, <span class="string">'Fraude'</span>], yticklabels=[<span class="string">'Seguro'</span>, <span class="string">'Fraude'</span>])
+plt.title(<span class="string">'Matriz de Confusão - Árvore de Decisão'</span>)
+plt.ylabel(<span class="string">'Real'</span>)
+plt.xlabel(<span class="string">'Previsto'</span>)
+plt.show()
+
+<span class="keyword">print</span>(<span class="string">"\n--- Relatório de Métricas (Árvore de Decisão) ---"</span>)
+<span class="keyword">print</span>(classification_report(y_test, y_pred_tree))</code></pre>
+          </div>
+
+          <div class="notebook-output">
+            <div class="notebook-output-label">Saída: plt.show() (Estrutura da Árvore)</div>
+            <img src="chart_3.png" alt="Estrutura de Nós da Árvore de Decisão para Risco" style="margin-bottom: 2rem;">
+            
+            <div class="notebook-output-label">Saída: plt.show() (Matriz de Confusão)</div>
+            <img src="chart_4.png" alt="Matriz de Confusão - Árvore de Decisão">
+            
+            <div class="notebook-output-label" style="margin-top: 1.5rem;">Saída do Terminal</div>
+            <pre style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 8px; color: #a8c7fa; font-family: 'Consolas', monospace; font-size: 0.9rem; overflow-x: auto;">
+--- Relatório de Métricas (Árvore de Decisão) ---
+              precision    recall  f1-score   support
+
+           0       0.99      0.97      0.98      2400
+           1       0.89      0.95      0.92       600
+
+    accuracy                           0.97      3000
+   macro avg       0.94      0.96      0.95      3000
+weighted avg       0.97      0.97      0.97      3000</pre>
+          </div>
+          
         </div>
       </div>
+      <!-- End Passo 4 -->
+
+      <!-- Passo 5: KNN -->
+      <div class="glass-card full-width notebook-card">
+        <h2 class="card-title">Passo 5: Treinamento e Análise do Modelo KNN (K-Nearest Neighbors)</h2>
+        <div class="card-content">
+
+          <div class="notebook-code">
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler, OneHotEncoder
+<span class="keyword">from</span> sklearn.compose <span class="keyword">import</span> ColumnTransformer
+<span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline
+<span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, classification_report
+
+<span class="comment"># 1. Carregar o dataset</span>
+df = pd.read_csv(<span class="string">'synthetic_ecommerce_order_risk_dataset.csv'</span>)
+
+<span class="comment"># 2. Separar Features e Target</span>
+X = df.drop(columns=[<span class="string">'order_id'</span>, <span class="string">'order_date'</span>, <span class="string">'risk_label'</span>, <span class="string">'is_fraud'</span>, <span class="string">'is_returned'</span>])
+y = df[<span class="string">'risk_label'</span>]
+
+<span class="comment"># 3. Identificar colunas</span>
+numerical_cols = X.select_dtypes(include=[<span class="string">'int64'</span>, <span class="string">'float64'</span>]).columns.tolist()
+categorical_cols = X.select_dtypes(include=[<span class="string">'object'</span>, <span class="string">'category'</span>]).columns.tolist()
+
+<span class="comment"># 4. Pré-processamento e Pipeline</span>
+preprocessor = ColumnTransformer(
+    transformers=[
+        (<span class="string">'num'</span>, StandardScaler(), numerical_cols),
+        (<span class="string">'cat'</span>, OneHotEncoder(handle_unknown=<span class="string">'ignore'</span>), categorical_cols)
+    ])
+
+clf = Pipeline(steps=[
+    (<span class="string">'preprocessor'</span>, preprocessor),
+    (<span class="string">'classifier'</span>, KNeighborsClassifier(n_neighbors=<span class="keyword">5</span>))
+])
+
+<span class="comment"># 5. Divisão Treino/Teste</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="keyword">0.2</span>, random_state=<span class="keyword">42</span>, stratify=y)
+
+<span class="comment"># 6. Treinar</span>
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+
+sns.set_theme(style=<span class="string">"whitegrid"</span>)
+
+<span class="comment"># GRÁFICO 1: Matriz de Confusão</span>
+plt.figure(figsize=(<span class="keyword">8</span>, <span class="keyword">6</span>))
+cm = confusion_matrix(y_test, y_pred, labels=clf.classes_)
+sns.heatmap(cm, annot=<span class="keyword">True</span>, fmt=<span class="string">'d'</span>, cmap=<span class="string">'Blues'</span>, xticklabels=clf.classes_, yticklabels=clf.classes_)
+plt.title(<span class="string">'Matriz de Confusão - Classificação KNN'</span>, fontsize=<span class="keyword">14</span>, pad=<span class="keyword">15</span>)
+plt.xlabel(<span class="string">'Predição do Modelo'</span>, fontsize=<span class="keyword">12</span>)
+plt.ylabel(<span class="string">'Valor Real no Dataset'</span>, fontsize=<span class="keyword">12</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="comment"># GRÁFICO 2: Distribuição do Valor do Pedido por Risco</span>
+plt.figure(figsize=(<span class="keyword">10</span>, <span class="keyword">6</span>))
+sns.boxplot(data=df, x=<span class="string">'risk_label'</span>, y=<span class="string">'order_value_eur'</span>, palette=<span class="string">'Set2'</span>)
+plt.title(<span class="string">'Distribuição do Valor do Pedido (EUR) por Categoria de Risco'</span>, fontsize=<span class="keyword">14</span>, pad=<span class="keyword">15</span>)
+plt.xlabel(<span class="string">'Classe de Risco'</span>, fontsize=<span class="keyword">12</span>)
+plt.ylabel(<span class="string">'Valor do Pedido (€)'</span>, fontsize=<span class="keyword">12</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+          </div>
+
+          <div class="notebook-output">
+            <div class="notebook-output-label">Saída: plt.show() (Matriz de Confusão KNN)</div>
+            <img src="chart_5.png" alt="Matriz de Confusão - Classificação KNN">
+          </div>
+
+        </div>
+      </div>
+      <!-- End Passo 5 -->
 
     </div>
 
